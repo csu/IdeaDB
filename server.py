@@ -16,7 +16,7 @@ def index():
 	programInfo['version'] = '1.0.0'
 	programInfo['project_url'] = 'http://github.com/csu'
 	programInfo['source_url'] = 'http://github.com/csu/IdeaDB/'
-	programInfo['description'] = 'An database and API for saving ideas.'
+	programInfo['description'] = 'A database and API for saving ideas.'
 	return jsonify(programInfo)
 
 @app.route('/test/', methods=['GET'])
