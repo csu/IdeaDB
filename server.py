@@ -4,24 +4,39 @@ from flask import Flask, jsonify, request
 from ideadb import IdeaDB
 
 app = Flask(__name__)
-
 db = IdeaDB()
 
 @app.route('/', methods=['GET'])
 def index():
-	programInfo = dict()
-	programInfo['author'] = 'Christopher Su'
-	programInfo['author_url'] = 'http://christophersu.net/'
-	programInfo['name'] = 'IdeaDB'
-	programInfo['version'] = '1.0.0'
-	programInfo['project_url'] = 'http://github.com/csu'
-	programInfo['source_url'] = 'http://github.com/csu/IdeaDB/'
-	programInfo['description'] = 'A database and API for saving and accessing ideas.'
-	return jsonify(programInfo)
+    programInfo = dict()
+    programInfo['author'] = 'Christopher Su'
+    programInfo['author_url'] = 'http://christophersu.net/'
+    programInfo['name'] = 'IdeaDB'
+    programInfo['version'] = '1.0.0'
+    programInfo['project_url'] = 'http://github.com/csu'
+    programInfo['source_url'] = 'http://github.com/csu/IdeaDB/'
+    programInfo['description'] = 'A database and API for saving and accessing ideas.'
+    return jsonify(programInfo)
 
-@app.route('/test/', methods=['GET'])
+@app.route('/test', methods=['GET'])
 def test():
 	return db.test()
 
-if __name__ == "__main__":
+@app.route('/api/v1/idea/<idea_id>', methods=['GET'])
+def idea_route(idea_id):
+    try:
+        return db.search(idea_id)
+    except:
+        return jsonify({'error':'Invalid request'})
+
+@app.route('/api/v1/idea/add', methods=['POST'])
+def idea_add():
+    try:
+        body = request.form['body']
+    	print 'body received: ' + body
+        return db.add(body)
+    except:
+        return jsonify({'error':'Invalid request'})
+
+if __name__ == '__main__':
     app.run()
