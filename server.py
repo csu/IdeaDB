@@ -22,11 +22,10 @@ def index():
 def test():
     return db.test()
 
-@app.route('/api/v1/idea/<idea_id>', methods=['GET'])
-def getIdea(idea_id):
+@app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
+def getIdea(idea_hash):
     try:
-        print 'searching for: ' + idea_id
-        return db.searchById(idea_id)
+        return db.searchById(idea_hash)
     except:
         return jsonify({'error':'Invalid request'})
 
@@ -34,7 +33,6 @@ def getIdea(idea_id):
 def addIdea():
     try:
         body = request.form['body']
-        print 'body received: ' + body
         return db.insert(body)
     except:
         return jsonify({'error':'Invalid request'})

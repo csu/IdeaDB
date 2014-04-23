@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import secret
 import datetime
+import hashlib
 
 class IdeaDB(object):
     def __init__(self):
@@ -10,15 +11,15 @@ class IdeaDB(object):
         database = client.ideadb
         collection = database.ideas
 
-    def searchById(self, search_id):
-        print 'in searchById with: ' + search_id
-        return collection.find_one({"_id": ObjectId(str(search_id))})
+    def searchById(self, idea_hash):
+        return collection.find_one({"hash": idea_hash})
 
     def insert(self, idea_body):
         idea = dict()
         idea['body'] = idea_body
         idea['added'] = datetime.datetime.utcnow()
-        return self.collection.insert(idea)
+        idea['hash'] = hashlib.sha224(str(idea)).hexdigest()
+        return self.collection.insert(idea['hash'])
 
     def test(self):
         return 'the ideadb object is working.'
