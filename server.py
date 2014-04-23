@@ -28,10 +28,6 @@ def index():
     programInfo['description'] = 'A database and API for saving and accessing ideas.'
     return jsonify(programInfo)
 
-@app.route('/test', methods=['GET'])
-def test():
-    return db.test()
-
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
     if idea_hash == 'all':

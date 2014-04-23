@@ -23,6 +23,3 @@ class IdeaDB(object):
         idea['hash'] = hashlib.sha224(str(idea)).hexdigest()
         self.collection.insert(idea)
         return idea['hash']
-
-    def test(self):
-        return 'the ideadb object is working.'
