@@ -7,10 +7,7 @@ import os
 
 class IdeaDB(object):
     def __init__(self):
-        if 'MONGOLAB_URI' in os.environ:
-            self.client = MongoClient(os.environ['MONGOLAB_URI'])
-        else:
-            self.client = MongoClient(secret.MONGO_DB_PATH)
+        self.client = MongoClient(os.environ['MONGOLAB_URI'])
         self.database = self.client.ideadb
         self.collection = self.database.ideas
 
