@@ -13,7 +13,7 @@ class IdeaDB(object):
     def searchById(self, idea_hash):
         return self.collection.find_one({"hash": idea_hash})
 
-    def getAll():
+    def getAll(self):
         return self.collection.find()
 
     def insert(self, idea_body):

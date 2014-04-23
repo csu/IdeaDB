@@ -10,7 +10,7 @@ class JSONEncoder(json.JSONEncoder):
         if isinstance(o, ObjectId):
             return str(o)
         elif isinstance(o, datetime.datetime):
-        	return str(o)
+            return str(o)
         return json.JSONEncoder.default(self, o)
 
 app = Flask(__name__)
@@ -34,15 +34,21 @@ def test():
 
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
+    if idea_hash == 'all' or idea_hash is None:
+    	print 'going to getAll()'
+        return getAll()
     try:
-		return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.searchById(idea_hash))
+    	print 'going the single retrieve route'
+        return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.searchById(idea_hash))
     except:
         return jsonify({'error':'Invalid request'})
 
-@app.route('/api/v1/idea/all', methods=['GET'])
-def getIdea(idea_hash):
+def getAll():
     try:
-		return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.getAll()))
+    	all_items = []
+    	for item in db.getAll():
+    		all_items.append(item)
+    	return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(all_items)
     except:
         return jsonify({'error':'Invalid request'})
 
