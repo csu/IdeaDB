@@ -5,8 +5,8 @@ import hashlib
 
 class IdeaDB(object):
     def __init__(self):
-        self.client = MongoClient('mongodb://heroku_app24466118:jqn73pim78il06igi3i0kp41pb@ds037758.mongolab.com:37758/heroku_app24466118')
-        self.database = self.client.ideadb
+        self.client = MongoClient(os.environ['MONGOLAB_URI'])
+        self.database = self.client.heroku_app24466118
         self.collection = self.database.ideas
 
     def searchById(self, idea_hash):
