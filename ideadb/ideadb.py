@@ -3,14 +3,10 @@ from bson.objectid import ObjectId
 import secret
 import datetime
 import hashlib
-import os
 
 class IdeaDB(object):
     def __init__(self):
-        if 'MONGOLAB_URI' in os.environ:
-            self.client = MongoClient(os.environ['MONGOLAB_URI'])
-        else:
-            self.client = MongoClient(secret.MONGO_DB_PATH)
+        self.client = MongoClient(secret.MONGO_DB_PATH)
         self.database = self.client.ideadb
         self.collection = self.database.ideas
 
