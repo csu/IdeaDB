@@ -1,6 +1,5 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-import secret
 import datetime
 import hashlib
 import os
