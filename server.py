@@ -34,11 +34,10 @@ def test():
 
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
-	return JSONEncoder().encode(db.searchById(idea_hash))
-  #   try:
-		# return json.dumps(db.searchById(idea_hash))
-  #   except:
-  #       return jsonify({'error':'Invalid request'})
+    try:
+		return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.searchById(idea_hash))
+    except:
+        return jsonify({'error':'Invalid request'})
 
 @app.route('/api/v1/idea/add', methods=['POST'])
 def addIdea():
