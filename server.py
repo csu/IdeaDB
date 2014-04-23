@@ -1,6 +1,17 @@
 #!/usr/bin/env python
 from flask import Flask, jsonify, request
 from ideadb import IdeaDB
+from bson.objectid import ObjectId
+import datetime
+import json
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        elif isinstance(o, datetime.datetime):
+        	return str(o)
+        return json.JSONEncoder.default(self, o)
 
 app = Flask(__name__)
 db = IdeaDB()
@@ -23,10 +34,11 @@ def test():
 
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
-    try:
-	    return str(db.searchById(idea_hash))
-    except:
-        return jsonify({'error':'Invalid request'})
+	return JSONEncoder().encode(db.searchById(idea_hash))
+  #   try:
+		# return json.dumps(db.searchById(idea_hash))
+  #   except:
+  #       return jsonify({'error':'Invalid request'})
 
 @app.route('/api/v1/idea/add', methods=['POST'])
 def addIdea():
