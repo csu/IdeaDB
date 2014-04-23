@@ -34,11 +34,9 @@ def test():
 
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
-    if idea_hash == 'all' or idea_hash is None:
-    	print 'going to getAll()'
+    if idea_hash == 'all':
         return getAll()
     try:
-    	print 'going the single retrieve route'
         return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.searchById(idea_hash))
     except:
         return jsonify({'error':'Invalid request'})
