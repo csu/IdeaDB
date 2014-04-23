@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
 import hashlib
+import os
 
 class IdeaDB(object):
     def __init__(self):
