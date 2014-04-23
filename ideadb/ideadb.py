@@ -1,3 +1,4 @@
+from flask import jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import secret
@@ -10,11 +11,14 @@ class IdeaDB(object):
         collection = database.ideas
 
     def searchById(self, search_id):
-        return self.collection.find_one({"_id": ObjectId(search_id)})
+        print 'in searchById with: ' + search_id
+        return collection.find_one({"_id": ObjectId(str(search_id))})
 
-    def add(self, idea_body):
-        idea = {"body": idea_body, "added": datetime.datetime.utcnow()}
+    def insert(self, idea_body):
+        idea = dict()
+        idea['body'] = idea_body
+        idea['added'] = datetime.datetime.utcnow()
         return self.collection.insert(idea)
 
-    def test():
+    def test(self):
         return 'the ideadb object is working.'
