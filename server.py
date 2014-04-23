@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from flask import Flask, jsonify, request
 from ideadb import IdeaDB
 
@@ -25,7 +24,7 @@ def test():
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
     try:
-        return db.searchById(idea_hash)
+	    return str(db.searchById(idea_hash))
     except:
         return jsonify({'error':'Invalid request'})
 
