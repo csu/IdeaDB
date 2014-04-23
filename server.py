@@ -39,6 +39,13 @@ def getIdea(idea_hash):
     except:
         return jsonify({'error':'Invalid request'})
 
+@app.route('/api/v1/idea/all', methods=['GET'])
+def getIdea(idea_hash):
+    try:
+		return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.getAll()))
+    except:
+        return jsonify({'error':'Invalid request'})
+
 @app.route('/api/v1/idea/add', methods=['POST'])
 def addIdea():
     try:

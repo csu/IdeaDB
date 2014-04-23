@@ -6,12 +6,15 @@ import hashlib
 
 class IdeaDB(object):
     def __init__(self):
-        self.client = MongoClient('mongodb://' + secret.MONGO_DB_USER + ':' + secret.MONGO_DB_PASS + '@ds029287.mongolab.com:29287/ideadb')
+        self.client = MongoClient(secret.MONGO_DB_PATH)
         self.database = self.client.ideadb
         self.collection = self.database.ideas
 
     def searchById(self, idea_hash):
         return self.collection.find_one({"hash": idea_hash})
+
+    def getAll():
+        return self.collection.find()
 
     def insert(self, idea_body):
         idea = dict()
