@@ -28,29 +28,27 @@ def index():
     programInfo['description'] = 'A database and API for saving and accessing ideas.'
     return jsonify(programInfo)
 
+@app.route('/api/v1/idea', methods=['GET', 'POST'])
+def getOrMakeIdea():
+    if request.method == 'GET':
+        try:
+            all_items = []
+            for item in db.getAll():
+                all_items.append(item)
+            return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(all_items)
+        except:
+            return jsonify({'error':'Invalid request'})
+    elif request.method == 'POST':
+        try:
+            body = request.form['body']
+            return db.insert(body)
+        except:
+            return jsonify({'error':'Invalid request'})
+
 @app.route('/api/v1/idea/<idea_hash>', methods=['GET'])
 def getIdea(idea_hash):
-    if idea_hash == 'all':
-        return getAll()
     try:
         return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(db.searchById(idea_hash))
-    except:
-        return jsonify({'error':'Invalid request'})
-
-def getAll():
-    try:
-    	all_items = []
-    	for item in db.getAll():
-    		all_items.append(item)
-    	return JSONEncoder(sort_keys=True, indent=4, separators=(',', ': ')).encode(all_items)
-    except:
-        return jsonify({'error':'Invalid request'})
-
-@app.route('/api/v1/idea/add', methods=['POST'])
-def addIdea():
-    try:
-        body = request.form['body']
-        return db.insert(body)
     except:
         return jsonify({'error':'Invalid request'})
 
